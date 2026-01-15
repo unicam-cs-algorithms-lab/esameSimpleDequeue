@@ -15,16 +15,9 @@ package it.unicam.cs.asdl2526.esamesimpledequeue;
  * elemento dalla parte della head oppure dalla parte della tail.
  * Completano i metodi che leggono la head o la tail senza estrarli e i
  * metodi di servizio sulla size e sulla coda vuota.
- * <p>
- * <p>
- * Viene poi richiesto un metodo removeAll che rimuove dalla coda tutti gli
- * elementi
- * uguali a un elemento dato secondo il metodo equals della classe E.
  *
- * </p>
- * NOTA BENE: Tutti i metodi tranne removeAll devono essere
- * implementati in modo che abbiano complessità asintotica O(1). Il metodo
- * removeAll può avere complessità asintotica O(n).
+ * NOTA BENE: Tutti i metodi devono essere implementati in modo che abbiano
+ * complessità asintotica O(1).
  */
 public class SimpleDequeue<E> {
 
@@ -82,7 +75,15 @@ public class SimpleDequeue<E> {
      * @param element l'elemento da aggiungere
      */
     public void addFirst(E element) {
-        // TODO implementare
+        if (this.head == null) {
+            this.head = new Node<E>(element);
+            this.tail = this.head;
+        } else {
+            Node<E> tmp = this.head;
+            this.head = new Node<E>(element, this.head, null);
+            tmp.previous = this.head;
+        }
+        this.size++;
     }
 
     /**
@@ -91,7 +92,15 @@ public class SimpleDequeue<E> {
      * @param element l'elemento da aggiungere
      */
     public void addLast(E element) {
-        // TODO implementare
+        if (this.head == null) {
+            this.tail = new Node<E>(element);
+            this.head = this.tail;
+        } else {
+            Node<E> tmp = this.tail;
+            this.tail = new Node<E>(element, null, this.tail);
+            tmp.next = this.tail;
+        }
+        this.size++;
     }
 
     /**
@@ -102,8 +111,9 @@ public class SimpleDequeue<E> {
      * @throws IllegalStateException se la coda è vuota
      */
     public E readFirst() {
-        // TODO implementare
-        return null;
+        if (size == 0) throw new IllegalStateException("Richiesta di primo " +
+                "elemento di coda vuota");
+        return this.head.item;
     }
 
     /**
@@ -114,8 +124,9 @@ public class SimpleDequeue<E> {
      * @throws IllegalStateException se la coda è vuota
      */
     public E readLast() {
-        // TODO implementare
-        return null;
+        if (size == 0) throw new IllegalStateException("Richiesta di ultimo" +
+                "elemento di coda vuota");
+        return this.tail.item;
     }
 
     /**
@@ -126,8 +137,22 @@ public class SimpleDequeue<E> {
      * @throws IllegalStateException se la coda è vuota
      */
     public E extractFirst() {
-        // TODO implementare
-        return null;
+        if (size == 0) throw new IllegalStateException("Richiesta di primo " +
+                "elemento di coda vuota");
+        if (size == 1) {
+            // Caso di coda che si svuota
+            E tmp = this.head.item;
+            this.head = null;
+            this.tail = null;
+            this.size = 0;
+            return tmp;
+        }
+        // la coda non si svuota
+        E tmp = this.head.item;
+        this.head = this.head.next;
+        this.head.previous = null;
+        this.size--;
+        return tmp;
     }
 
     /**
@@ -138,8 +163,22 @@ public class SimpleDequeue<E> {
      * @throws IllegalStateException se la coda è vuota
      */
     public E extractLast() {
-        // TODO implementare
-        return null;
+        if (size == 0) throw new IllegalStateException("Richiesta di ultimo" +
+                "elemento di coda vuota");
+        if (size == 1) {
+            // Caso di coda che si svuota
+            E tmp = this.head.item;
+            this.head = null;
+            this.tail = null;
+            this.size = 0;
+            return tmp;
+        }
+        // la coda non si svuota
+        E tmp = this.tail.item;
+        this.tail = this.tail.previous;
+        this.tail.next = null;
+        this.size--;
+        return tmp;
     }
 
     /**
@@ -149,13 +188,46 @@ public class SimpleDequeue<E> {
      * @return numero di elementi rimossi
      */
     public int removeAll(E element) {
-        // TODO implementare
-        return -1;
+        int removed = 0;
+        Node<E> current = this.head;
+
+        while (current != null) {
+            Node<E> next = current.next;
+
+            if (current.item.equals(element)) {
+                // rimozione del nodo current
+                if (current.previous == null) {
+                    // rimozione in testa
+                    this.head = current.next;
+                    if (this.head != null) {
+                        this.head.previous = null;
+                    }
+                } else {
+                    current.previous.next = current.next;
+                }
+
+                if (current.next == null) {
+                    // rimozione in coda
+                    this.tail = current.previous;
+                    if (this.tail != null) {
+                        this.tail.next = null;
+                    }
+                } else {
+                    current.next.previous = current.previous;
+                }
+
+                this.size--;
+                removed++;
+            }
+
+            current = next;
+        }
+
+        return removed;
     }
 
     /**
      * Determina se la coda è vuota.
-     *
      * @return se la coda è vuota.
      */
     public boolean isEmpty() {
