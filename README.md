@@ -3,9 +3,11 @@
 ### Condizioni dell'esame
 
 - **Tempo a disposizione**: **1 ora**
-- **È consentito** utilizzare **solo** l'IDE IntelliJ IDEA disponibile nel
+- **È consentito** utilizzare come IDE **solo** IntelliJ IDEA, disponibile nel
   Thin Client.
-- **Non è consentito** utilizzare materiale cartaceo.
+- **Non è consentito** utilizzare materiale cartaceo a parte il foglio dato in
+  dotazione, su cui bisogna scrivere all'inizio della prova Nome, Cognome e
+  Matricola.
 - **Non è consentito** navigare in Internet con il browser o altre
   applicazioni.
 
@@ -14,17 +16,29 @@
 ### Istruzioni
 
 1. Scaricare il codice in formato `.zip` dalla domanda Moodle nella cartella
-   del Thin Client `C:\Users\proprionome.propriocognome`
+   del disco locale `C` del Thin Client `C:\Users\proprionome.propriocognome`.
+   **ATTENZIONE** il
+   file deve essere scaricato e poi scompattato esattamente in questa
+   cartella, altrove IntelliJ IDEA non riesce a leggere correttamente i file.
 2. Scompattare lo zip.
-3. Aprire con IntelliJ IDEA la cartella scompattata.
+3. Aprire con IntelliJ IDEA la cartella scompattata. **ATTENZIONE**: la
+   cartella deve contenere `src` (cartella), `pom.xml` e `README.md`.
 4. L'IDE dovrebbe riconoscere automaticamente il progetto come **Maven** e
    scaricare le dipendenze necessarie per l’esecuzione dei test. Questo può
    richiedere un po' di tempo.
-5. Leggere attentamente la descrizione delle classi fornite e del lavoro da
+5. Ignorare la finestra di "Access Denied" o qualcosa di simile che si aprirà.
+   Se viene chiusa si riapre. Abbassatela così non dà fastidio.
+6. Provare a eseguire i test per verificare che venga fatto il Build del
+   progetto. In questa fase ovviamente molti test non passeranno. **ATTENZIONE
+   ** se c'è un errore che riguarda l'assenza di una SDK, andare su File ->
+   Project Structure -> Tab Project e impostare una SDK tra quelle
+   disponibili. Qualora non fosse installata nessuna SDK si potrà scaricare da
+   IntelliJ IDEA.
+7. Leggere attentamente la descrizione delle classi fornite e del lavoro da
    svolgere in questo file `README.md` (e nella domanda su Moodle).
-6. Implementare **esclusivamente** i metodi contrassegnati nel codice con
+8. Implementare **esclusivamente** i metodi contrassegnati nel codice con
    `// TODO implementare`.
-7. Sono messi a disposizione alcuni **test JUnit di base** per verificare le
+9. Sono messi a disposizione alcuni **test JUnit di base** per verificare le
    funzionalità richieste.
    **I test forniti non sono tutti quelli utilizzati in fase di valutazione.**
 
